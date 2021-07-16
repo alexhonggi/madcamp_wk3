@@ -2,15 +2,15 @@
  src:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff') format('woff');
 }
 body {
-	background: url(//subtlepatterns.com/patterns/scribble_light.png);
+	background: url(http://subtlepatterns.com/patterns/scribble_light.png);
   font-family: Calluna, Arial, sans-serif;
   min-height: 1000px;
 }
 #columns {
-	column-width: 240px;
+	column-width: 260px;
 	column-gap: 25px;
   width: 90%;
-	max-width: 1100px;
+	max-width: 1400px;
 	margin: 50px auto;
 }
 

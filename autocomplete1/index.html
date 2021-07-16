@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Autocomplete - Remote JSONP datasource</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+  <div class="searchBook">
+    <input type="text" placeholder="Search..." id="findBook">
+    <script>
+        $(function() {
+            $("#findBook").autocomplete({
+            source: function(request, response) {
+                //console.log("start");
+                $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v3/search/book?target=title", // + request.term,
+                    headers: { Authorization: "KakaoAK 72b502c6c7d429babec5087a1a698ff3" }, // ########부분에 본인의 REST API 키를 넣어주세요.
+                    dataType: "json",
+                    size: 5,
+                    // data: {
+                    //     term: request.term
+                    // },
+                    data: { query: $("#findBook").val(), size:3 }, //{ query: $("#findBook").val()},
+                    // data: { query: $("#query").val(), page: pageNum},
+                    
+                    success: function(data) {
+                        // console.log(data)
+                        // console.log(data.documents)
+                        // console.log(data.documents[0])
+                        console.log(data.documents[0].title)
+                        console.log(data.documents[0].authors[0])
+                        console.log(data.documents[0].thumbnail)
+                        //console.log(data.documents.0)
+                        var transformed = data.documents.map(function(msg) {
+                            // for (var i = 0; i < 10; i++){
+                                return {
+                                    title: msg.title,
+                                    author: msg.authors[0],
+                                    image: msg.thumbnail
+                                };
+                            // }
+                        });
+                        response(transformed);
+                    }
+                });
+            }
+            }).autocomplete("instance")._renderItem = function(ul, item) {
+                // console.log(msg)
+                // console.log(msg.documents)
+                console.log(item)
+                console.log(item.title)
+                console.log(item.author)
+                console.log(item.image)
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + "<img src=\"" + item.image + "\" style=\"height: 40%;\" /><br />" + item.author + " - " + item.title + "</a>")
+                .appendTo(ul);
+
+                console.log(item.image);
+                console.log(item.title);
+                console.log(item.author);
+            };
+            });
+    </script>
+  </div>
+</body>
+
+</html>
