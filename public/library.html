@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CodePen - Pure CSS Pinterest Columnar Layout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        font-family: 'Nanum Myeongjo', serif;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  </head>
+  <body>
+    <script src="/__/firebase/8.7.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-storage.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: 'AIzaSyAbmqKRLiQGTnwQceuUA6nU4sU7DMWG35A',
+        authDomain: 'madcamp2-4c469.firebaseapp.com',
+        databaseURL: 'https://madcamp2-4c469-default-rtdb.firebaseio.com',
+        projectId: 'madcamp2-4c469',
+        storageBucket: 'madcamp2-4c469.appspot.com',
+        messagingSenderId: '496486665118',
+        appId: '1:496486665118:web:6db4560115692b36da648f',
+        measurementId: 'G-M2KP2XT3M7',
+      }
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig)
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+
+    <div id="columns">
+      <small
+        >Library &copy;
+        <a
+          href="https://www.starchaser.cf/Starchaser-83743fdaefad46cc8a0c944fb21497a0"
+          >Honggi Lee</a
+        ></small
+      >
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const db = firebase.firestore()
+      db.collection('book')
+        .get()
+        .then((result) =>
+          result.forEach((doc) => {
+            var parenthesis = '('
+            var rTitle = doc.data().title.split(parenthesis)
+            var rAuthors = doc.data().authors.split(',')
+            var rIsbn = doc.data().isbn.split(' ')
+            var template = `
+							<figure>
+								<img src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(
+                  rIsbn[1].length - 3,
+                  rIsbn[1].length
+                )}/x${rIsbn[1]}.jpg">
+    						<figcaption>${rAuthors[0]}<span style="color: gray">의 <br></span>${
+              rTitle[0]
+            }.</figcaption>
+							</figure>`
+            console.log(template)
+            $('div').append(template)
+          })
+        )
+    </script>
+
+    <!-- partial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </body>
+</html>
