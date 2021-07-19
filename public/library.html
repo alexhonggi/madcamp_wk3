@@ -37,14 +37,15 @@
         <img id="preImg" class="preImg" src="http://image.kyobobook.co.kr/images/book/xlarge/987/x9788954675987.jpg"></img>
         <div class="greyRule"><hr /></div>
         <div class="book_content">
-          <h1>제목<br></h1>
-          <h2>작가<br></h2>
-          <div>내용<br></div>
+          <h4 id="aut">작가<br></h4>
+          <h2 id="tit">제목<br></h2>
+          <!-- <h2 id="aut">작가<br></h2> -->
+          <div id="cont"><br>내용<br></div>
         </div>
       </div>
     </div>
+
     <script>
-      console.log('4')
       var firebaseConfig = {
         apiKey: 'AIzaSyAbmqKRLiQGTnwQceuUA6nU4sU7DMWG35A',
         authDomain: 'madcamp2-4c469.firebaseapp.com',
@@ -68,7 +69,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script>
-      console.log('2')
       const db = firebase.firestore()
       var count = 1
       db.collection('book')
@@ -82,7 +82,7 @@
             var template = `
               <figure id="book${count}" class="book">
                 <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
-                <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span style="color: gray">의 <br></span>${rTitle[0]}.</figcaption>
+                <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="color: gray">의 <br></span>${rTitle[0]}.</figcaption>
               </figure>`
             $('div#columns').append(template)
             count++
@@ -91,12 +91,11 @@
     </script>
 
     <script>
-      console.log('1')
       console.log('bef')
       var delayInMilliseconds = 600 //1 second
 
       setTimeout(function () {
-        console.log('a')
+        console.log('aft')
         const popup = document.querySelector('.popup')
         const book = document.querySelectorAll('.book')
         const img = document.querySelectorAll('.img')
@@ -111,6 +110,12 @@
             var mp1 = m+1
             book[m].addEventListener('click', function(event) {
               document.getElementById("preImg").src = document.getElementById("img" + mp1).src
+              var fulltitle = document.getElementById("figcp" + mp1).textContent
+              var pAuthor = fulltitle.split('의')[0] + '의'
+              var pTitle = fulltitle.substring(pAuthor.length + 1, fulltitle.length - 1)
+              document.getElementById('aut').textContent = pAuthor
+              document.getElementById('tit').textContent = pTitle
+              // document.getElementById("aut").textContent = document.getElementById("figcp" + mp1).textContent
               popup.classList.remove('hidden')
             }, false)
           })(i);
