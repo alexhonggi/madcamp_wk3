@@ -12,6 +12,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./style_ind.css" />
 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -66,22 +67,14 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <input type="text" id="query" />
     <button id="search">검색</button>
 
-    <div></div>
+    <div class="search"></div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.js"
-      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script>
       const db = firebase.firestore()
@@ -94,7 +87,7 @@
           $.ajax({
             method: 'GET',
             url: 'https://dapi.kakao.com/v3/search/book?target=title',
-            data: { query: $('#query').val(), page: pageNum },
+            data: {query: $('#query').val(), page: pageNum},
             headers: {
               Authorization: 'KakaoAK 72b502c6c7d429babec5087a1a698ff3',
             }, // ########부분에 본인의 REST API 키를 넣어주세요.
@@ -105,22 +98,10 @@
                 <h2 id='title${i}' onclick='move2lib("${msg.documents[i].title}", "${msg.documents[i].authors}", "${msg.documents[i].thumbnail}", "${msg.documents[i].isbn}")'>${msg.documents[i].title}</h2>
               `
               $('div').append(template)
-              $('div').append(
-                '<strong>저자:</strong> ' + msg.documents[i].authors + '<br>'
-              )
-              $('div').append(
-                '<strong>출판사:</strong> ' +
-                  msg.documents[i].publisher +
-                  '<br>'
-              )
-              $('div').append(
-                '<strong>요약:</strong> ' +
-                  msg.documents[i].contents +
-                  '...<br>'
-              )
-              $('div').append(
-                "<img src='" + msg.documents[i].thumbnail + "'/><br>"
-              )
+              $('div').append('<strong>저자:</strong> ' + msg.documents[i].authors + '<br>')
+              $('div').append('<strong>출판사:</strong> ' + msg.documents[i].publisher + '<br>')
+              $('div').append('<strong>요약:</strong> ' + msg.documents[i].contents + '...<br>')
+              $('div').append("<img src='" + msg.documents[i].thumbnail + "'/><br>")
             }
           })
         })

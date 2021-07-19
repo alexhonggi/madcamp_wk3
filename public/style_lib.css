@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'Calluna';
-  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff')
-    format('woff');
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff') format('woff');
 }
 body {
   background: url(//subtlepatterns.com/patterns/scribble_light.png);
   font-family: Calluna, Arial, sans-serif;
   min-height: 1000px;
 }
+
 #columns {
   column-width: 240px;
   column-gap: 25px;
@@ -59,6 +59,10 @@ div#columns:hover figure:not(:hover) {
   opacity: 0.4;
 }
 
+div figure {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 750px) {
   #columns {
     column-gap: 0px;
@@ -66,4 +70,60 @@ div#columns:hover figure:not(:hover) {
   #columns figure {
     width: 100%;
   }
+}
+.popup {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup_overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+}
+
+.popup_content {
+  background-color: white;
+  display: flex;
+  padding: 50px 50px 50px 50px;
+  text-align: center;
+  position: absolute;
+  top: 10%;
+  height: 75%;
+  width: 75%;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.preImg {
+  background: #fefefe;
+  border: 2px solid #fcfcfc;
+  box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+  padding: 15px;
+  transition: opacity 0.4s ease-in-out;
+  display: inline-block;
+}
+.greyRule {
+  background: #e7e7e7;
+  width: 1px;
+  height: 100%;
+  margin: 0px 10px 0px 15px;
+}
+.greyRule hr {
+  display: none;
+}
+
+.book_content {
+  height: 100%;
+  width: 100%;
+  /* background-color: black; */
+}
+
+.hidden {
+  display: none;
 }
