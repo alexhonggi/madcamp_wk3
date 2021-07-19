@@ -5,6 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>책 검색 사이트</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        font-family: 'Nanum Myeongjo', serif;
+      }
+    </style>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -82,7 +90,7 @@
         var pageNum = 1
 
         $('#search').click(function () {
-          $('div').html('')
+          $('.search').html('')
 
           $.ajax({
             method: 'GET',
@@ -95,13 +103,21 @@
             console.log(msg)
             for (var i = 0; i < 10; i++) {
               var template = `
-                <h2 id='title${i}' onclick='move2lib("${msg.documents[i].title}", "${msg.documents[i].authors}", "${msg.documents[i].thumbnail}", "${msg.documents[i].isbn}")'>${msg.documents[i].title}</h2>
+                <div class="srcResult" onclick='move2lib("${msg.documents[i].title}", "${msg.documents[i].authors}", "${msg.documents[i].thumbnail}", "${msg.documents[i].isbn}")'>
+                  <img src='${msg.documents[i].thumbnail}'/><br>
+                  <div class="indBook">
+                    <h2 id='title${i}'>${msg.documents[i].title}</h2>
+                    <strong>저자:</strong> ${msg.documents[i].authors}<br>
+                    <strong>출판사:</strong> ${msg.documents[i].publisher}<br>
+                    <strong>요약:</strong> ${msg.documents[i].contents}...<br>
+                  </div>
+                </div>
               `
-              $('div').append(template)
-              $('div').append('<strong>저자:</strong> ' + msg.documents[i].authors + '<br>')
-              $('div').append('<strong>출판사:</strong> ' + msg.documents[i].publisher + '<br>')
-              $('div').append('<strong>요약:</strong> ' + msg.documents[i].contents + '...<br>')
-              $('div').append("<img src='" + msg.documents[i].thumbnail + "'/><br>")
+              $('.search').append(template)
+              // $('div').append('<strong>저자:</strong> ' + msg.documents[i].authors + '<br>')
+              // $('div').append('<strong>출판사:</strong> ' + msg.documents[i].publisher + '<br>')
+              // $('div').append('<strong>요약:</strong> ' + msg.documents[i].contents + '...<br>')
+              // $('div').append("<img src='" + msg.documents[i].thumbnail + "'/><br>")
             }
           })
         })
