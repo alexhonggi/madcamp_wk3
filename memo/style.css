@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+}
+/* base font-size */
+html {
+    font-size: 20px;
+}
+/* character count */
+/* .char-count {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 101;
+    height: 4rem;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+    line-height: 4rem;
+    text-align: center;
+    color: #555;
+}
+.char-count:after {
+    content: '자 /100자';
+    display: inline;
+} */
+/* live preview */
+.preview {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    width: calc(37.5rem + 1px);
+    min-height: 2rem;
+    margin: 4rem auto;
+    font-size: 1rem;
+    font-family: 'Nanum Myeongjo', serif;
+    line-height: 1.5rem;
+    color: #555;
+   /* grid */
+    background-image: linear-gradient(#f99 1px, white 1px, white 25%, #f99 26%, transparent 27%), linear-gradient(#f99 1px, transparent 1px), linear-gradient(90deg, #f99 1px, transparent 1px);
+    background-size: 100% 2rem, 1.5rem 2rem, 1.5rem 1.5rem;
+    background-position: 0 1.75rem, 0 0, 1.5rem 1.5rem;
+   /* indicate caret position */
+}
+.preview span {
+    display: block;
+    float: left;
+    width: 1.5rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+   /* new line */
+}
+.preview span.nl + span {
+    clear: both;
+}
+.preview .caret {
+    position: relative;
+    margin-right: -1.5rem;
+}
+.preview .caret:after {
+    content: '';
+    position: absolute;
+    top: 0.4rem;
+    left: 0.2rem;
+    bottom: 0.4rem;
+    display: block;
+    width: 0.1rem;
+    background: #fb0;
+}
+/* hide original textarea */
+.orig-text {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 102;
+    width: 100%;
+    border: 0;
+    opacity: 0;
+}
