@@ -5,7 +5,13 @@
     <title>CodePen - Pure CSS Pinterest Columnar Layout</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        font-size: 14px;
+        font-family: 'Nanum Myeongjo', serif;
+      }
+    </style>
     <link rel="stylesheet" href="./style_lib.css" />
 
     <link
@@ -14,11 +20,6 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <style>
-      * {
-        font-family: 'Nanum Myeongjo', serif;
-      }
-    </style>
   </head>
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
@@ -40,7 +41,10 @@
           <h4 id="aut">작가<br></h4>
           <h2 id="tit">제목<br></h2>
           <!-- <h2 id="aut">작가<br></h2> -->
-          <div id="cont"><br>내용<br></div>
+          <!-- <div id="cont"><br>내용<br></div> -->
+          <div class="memo"></div>
+          <textarea name="writing" id="writing" class="writin" cols="30" rows="10" autofocus></textarea>
+          <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script><script  src="./move.js"></script>
         </div>
       </div>
     </div>
@@ -65,9 +69,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
     <script>
       const db = firebase.firestore()
       var count = 1
@@ -82,7 +83,7 @@
             var template = `
               <figure id="book${count}" class="book">
                 <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
-                <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="color: gray">의 <br></span>${rTitle[0]}.</figcaption>
+                <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
               </figure>`
             $('div#columns').append(template)
             count++

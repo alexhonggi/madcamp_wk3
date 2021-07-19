@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+    <title>읽다.</title>
+    <link rel="stylesheet" href="./style_pap.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        font-family: 'Nanum Myeongjo', serif;
+      }
+    </style>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="./move.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-storage.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: 'AIzaSyAbmqKRLiQGTnwQceuUA6nU4sU7DMWG35A',
+        authDomain: 'madcamp2-4c469.firebaseapp.com',
+        databaseURL: 'https://madcamp2-4c469-default-rtdb.firebaseio.com',
+        projectId: 'madcamp2-4c469',
+        storageBucket: 'madcamp2-4c469.appspot.com',
+        messagingSenderId: '496486665118',
+        appId: '1:496486665118:web:6db4560115692b36da648f',
+        measurementId: 'G-M2KP2XT3M7',
+      }
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig)
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <div class="memo"></div>
+    <textarea name="writing" id="writing" class="writin" cols="30" rows="10" autofocus></textarea>
+  </body>
+</html>
