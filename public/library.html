@@ -163,6 +163,9 @@
     <div id="columns">
       <small>Library &copy; <a href="https://www.starchaser.cf/Starchaser-83743fdaefad46cc8a0c944fb21497a0">Honggi Lee</a></small>
     </div>
+    <div id="columns_read" class="hidden">
+      <small>Library &copy; <a href="https://www.starchaser.cf/Starchaser-83743fdaefad46cc8a0c944fb21497a0">Honggi Lee</a></small>
+    </div>
 
     <div class="popup hidden">
       <div class="popup_overlay">
@@ -307,14 +310,45 @@
         overlay.addEventListener('click', closeModal)
 
         var light = document.querySelector('.toggle-scene__hit-spot')
+        var clickNum = 1
         light.addEventListener('mouseleave', function(event) {
+          clickNum++
+          console.log(clickNum)
           console.log('clicked')
-          if(forOn.textContent='1') {
-            forOn.textContent='0'
+          if(clickNum <= 2) {
+            const db = firebase.firestore()
+            const storage = firebase.storage()
+            var count = 1
+            db.collection('book_test')
+              .get()
+              .then((result) =>
+                result.forEach((doc) => {
+                  var rWish = doc.data().wish
+                  if(!rWish) {
+                    var parenthesis = '('
+                    var rTitle = doc.data().title.split(parenthesis)
+                    var rAuthors = doc.data().authors.split(',')
+                    var rIsbn = doc.data().isbn.split(' ')
+                    var risbnR = doc.data().isbnR
+                    var template = `
+                    <figure id="book${count}R" class="book">
+                      <div id="isbn${count}R" style="display:none">${risbnR}</div>
+                      <img id="img${count}R" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
+                      <figcaption id="figcp${count}R" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
+                    </figure>`
+                  $('div#columns_read').append(template)
+                    count++
+                  }
+                })
+              )
           }
-          if(forOn.textContent='0') {
-            forOn.textContent='1'
-          }
+            setTimeout(function () {
+              columnsR = document.querySelector('#columns_read')
+              columns = document.querySelector('#columns')
+              columns.classList.add('hidden')
+              columnsR.classList.remove('hidden')
+            }, delayInMilliseconds)
+            
         })
       }, delayInMilliseconds)
     </script>
