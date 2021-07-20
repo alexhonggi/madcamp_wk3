@@ -232,24 +232,38 @@
             if(rWish) { // 해당 책이 wish list 에 속하면 columns 에 추가
               console.log("in rWish")
               template = `
-              <figure id="book${count}" class="book" style="display:">
+              <figure id="book${risbnR}" class="book" style="display:">
                 <div id="isbn${count}" class="isbn" style="display:none">${risbnR}</div>
                 <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${risbnR.substring(risbnR.length - 3, risbnR.length)}/x${risbnR}.jpg">
                 <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
               </figure>`
               $('div#columns').append(template)
+              template = `
+              <figure id="book${risbnR}R" class="book read hidden" style="display:">
+                <div id="isbn${count}R" class="isbn read" style="display:none">${risbnR}</div>
+                <img id="img${count}R" class="img read" src="http://image.kyobobook.co.kr/images/book/xlarge/${risbnR.substring(risbnR.length - 3, risbnR.length)}/x${risbnR}.jpg">
+                <figcaption id="figcp${count}R" class="figcp read">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
+              </figure>`
+              $('div#columns_read').append(template)
               count++
             }
 
             if(!rWish) { // 해당 책이 read list 에 속하면 columns_read 에 추가
               template = `
-              <figure id="book${countR}R" class="book read" style="display:">
-                <div id="isbn${countR}R" class="isbn read" style="display:none">${risbnR}</div>
-                <img id="img${countR}R" class="img read" src="http://image.kyobobook.co.kr/images/book/xlarge/${risbnR.substring(risbnR.length - 3, risbnR.length)}/x${risbnR}.jpg">
-                <figcaption id="figcp${countR}R" class="figcp read">${rAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
+              <figure id="book${risbnR}" class="book hidden" style="display:">
+                <div id="isbn${count}" class="isbn" style="display:none">${risbnR}</div>
+                <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${risbnR.substring(risbnR.length - 3, risbnR.length)}/x${risbnR}.jpg">
+                <figcaption id="figcp${countR}" class="figcp">${rAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
+              </figure>`
+              $('div#columns').append(template)
+              template = `
+              <figure id="book${risbnR}R" class="book read" style="display:">
+                <div id="isbn${count}R" class="isbn read" style="display:none">${risbnR}</div>
+                <img id="img${count}R" class="img read" src="http://image.kyobobook.co.kr/images/book/xlarge/${risbnR.substring(risbnR.length - 3, risbnR.length)}/x${risbnR}.jpg">
+                <figcaption id="figcp${count}R" class="figcp read">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
               </figure>`
               $('div#columns_read').append(template)
-              countR++
+              count++
             }
           })
         )
@@ -304,20 +318,8 @@
                           console.log("읽은을 클릭했을때")
                           querySnapshot.forEach((doc) => {
                             if(doc.data().wish) {
-                              var docId = doc.id
-                              db.collection("book_test").doc(docId).set({
-                                wish: false
-                                }, { merge: true });
-
-                              var template = `
-                                <figure id="book${countR}R" class="book read" style="display:">
-                                  <div id="isbn${countR}R" class="isbn read" style="display:none">${isbn}</div>
-                                  <img id="img${countR}R" class="img read" src="http://image.kyobobook.co.kr/images/book/xlarge/${isbn.substring(isbn.length - 3, isbn.length)}/x${isbn}.jpg">
-                                  <figcaption id="figcp${countR}R" class="figcp read">${rAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
-                                </figure>`
-                              $('div#columns_read').append(template)
-                              countR++
-                              book[m].remove();
+                              document.getElementById("book" + isbn).classList.add('hidden')
+                              document.getElementById("book" + isbn + "R").classList.remove('hidden')
                             }
                           });
                         })
@@ -334,20 +336,8 @@
                         .then((querySnapshot) => {
                           querySnapshot.forEach((doc) => {
                             if(!doc.data().wish) {
-                              var docId = doc.id
-                              db.collection("book_test").doc(docId).set({
-                                wish: true
-                                }, { merge: true });
-
-                              var template = `
-                                <figure id="book${count}" class="book" style="display:">
-                                  <div id="isbn${count}" class="isbn" style="display:none">${isbn}</div>
-                                  <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${isbn.substring(isbn.length - 3, isbn.length)}/x${isbn}.jpg">
-                                  <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
-                                </figure>`
-                              $('div#columns').append(template)
-                              count++
-                              book[m].remove()
+                              document.getElementById("book" + isbn).classList.remove('hidden')
+                              document.getElementById("book" + isbn + "R").classList.add('hidden')
                             }
                           });
                         })
