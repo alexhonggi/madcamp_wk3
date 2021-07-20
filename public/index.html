@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>읽다</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style_ind.css" />
     <style>
       * {
         font-family: 'Nanum Myeongjo', serif;
       }
     </style>
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./style_ind.css" />
     <script>
       function move2lib(_title, _authors, _thumbnail, _isbn) {
         const db = firebase.firestore()
@@ -74,51 +70,137 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script  src="./script.js"></script>
 
-    <input type="text" id="query" />
-    <button id="search">검색</button>
-    <div class="search"></div>
-
-    <script>
-      const db = firebase.firestore()
-      $(document).ready(function () {
-        var pageNum = 1
-
-        $('#search').click(function () {
-          $('.search').html('')
-
-          $.ajax({
-            method: 'GET',
-            url: 'https://dapi.kakao.com/v3/search/book?target=title',
-            data: {query: $('#query').val(), page: pageNum},
-            headers: {
-              Authorization: 'KakaoAK 72b502c6c7d429babec5087a1a698ff3',
-            }, // ########부분에 본인의 REST API 키를 넣어주세요.
-          }).done(function (msg) {
-            console.log(msg)
-            for (var i = 0; i < 10; i++) {
-              var template = `
-                <div class="srcResult" onclick='move2lib("${msg.documents[i].title}", "${msg.documents[i].authors}", "${msg.documents[i].thumbnail}", "${msg.documents[i].isbn}")'>
-                  <img src='${msg.documents[i].thumbnail}'/><br>
-                  <div class="indBook">
-                    <h2 id='title${i}'>${msg.documents[i].title}</h2>
-                    <strong>저자:</strong> ${msg.documents[i].authors}<br>
-                    <strong>출판사:</strong> ${msg.documents[i].publisher}<br>
-                    <strong>요약:</strong> ${msg.documents[i].contents}...<br>
-                  </div>
-                </div>
-              `
-              $('.search').append(template)
-              // $('div').append('<strong>저자:</strong> ' + msg.documents[i].authors + '<br>')
-              // $('div').append('<strong>출판사:</strong> ' + msg.documents[i].publisher + '<br>')
-              // $('div').append('<strong>요약:</strong> ' + msg.documents[i].contents + '...<br>')
-              // $('div').append("<img src='" + msg.documents[i].thumbnail + "'/><br>")
+    <div class="wrapper">
+      <div id="typing-demo" class="typing-demo">
+        <div id="container3"></div>
+        <script>
+          const db = firebase.firestore();
+          var quote_num = Math.floor(Math.random() * 7 + 1);
+          var squote_num = String(quote_num)
+          console.log(quote_num)
+          var quote_length;
+          var quote_sentence;
+          let div = document.createElement("div");
+          db.collection('quote').doc(squote_num)
+            .get()
+            .then((doc) => {
+              quote_sentence = doc.data().sentence
+              quote_length = doc.data().length
+              console.log(quote_length)
+              console.log(quote_sentence)
+              var place = document.getElementById("typing-demo");
+            $("#typing-demo").append(quote_sentence);
+            place.width = quote_length
+            div.className = 'custom-class';
+            div.innerHTML = quote_sentence
+            div.width = quote_length
+            varname = quote_length
+            console.log(varname)
+            container3.width = quote_length
+            console.log(div)
+            console.log(div.innerHTML)
+            console.log(div.width)
+            document.getElementById("container3").appendChild(div)
+            console.log(container3.width)
+            })
+        </script>
+      </div>
+    </div>
+    <div class="whi"></div>
+    <div class="bu"></div>
+    <div class="bub"></div>
+    
+    <div class="preview"></div>
+    <input name="findBook"  class="orig-text" type="text" placeholder="설국" id="findBook" autofocus>
+      <button id="search">검색</button><div class="search"></div>
+      <script>
+        $(function() {
+          $("#findBook").autocomplete({
+            source: function(request, response) {
+              $.ajax({
+                method: "GET",
+                url: "https://dapi.kakao.com/v3/search/book?target=title", // + request.term,
+                headers: { Authorization: "KakaoAK 72b502c6c7d429babec5087a1a698ff3" }, // ########부분에 본인의 REST API 키를 넣어주세요.
+                dataType: "json",
+                size: 5,
+                data: { query: $("#findBook").val(), size:3 }, //{ query: $("#findBook").val()},
+                // data: { query: $("#query").val(), page: pageNum},
+                
+                success: function(data) {
+                  // console.log(data)
+                  // console.log(data.documents)
+                  // console.log(data.documents[0])
+                  console.log(data.documents[0].title)
+                  console.log(data.documents[0].authors[0])
+                  console.log(data.documents[0].thumbnail)
+                  //console.log(data.documents.0)
+                  var transformed = data.documents.map(function(msg) {
+                      // for (var i = 0; i < 10; i++){
+                          return {
+                              title: msg.title,
+                              author: msg.authors[0],
+                              image: msg.thumbnail
+                          };
+                      // }
+                  });
+                  response(transformed);
+                }
+              });
             }
+          }).autocomplete("instance")._renderItem = function(ul, item) {
+              // console.log(msg)
+              // console.log(msg.documents)
+              console.log(item)
+              console.log(item.title)
+              console.log(item.author)
+              console.log(item.image)
+              var authorw = item.author.split('(')
+              var titlew = item.title.split('(')
+              return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<div class=\"containall\" ><div class=\"content\"><img id=\"pre\" class=\"pre\" src=\"" + item.image + "\" style=\"height: 120px;\" /><div class=\"greyRule\"><hr /></div><div class=\"bookcontent\"><h1>" + titlew[0] + " <br></h1><h2>" + authorw[0] + "</h2></div></div></div>")
+                .appendTo(ul);
+
+                console.log(item.image);
+                console.log(item.title);
+                console.log(item.author);
+            };
+        });
+      </script> 
+
+      <script>
+        $(document).ready(function () {
+          var pageNum = 1
+          $('#search').click(function () {
+            $('.search').html('')
+            $.ajax({
+              method: 'GET',
+              url: 'https://dapi.kakao.com/v3/search/book?target=title',
+              data: {query: $('#findBook').val(), page: pageNum},
+              headers: {
+                Authorization: 'KakaoAK 72b502c6c7d429babec5087a1a698ff3',
+              }, // ########부분에 본인의 REST API 키를 넣어주세요.
+            }).done(function (msg) {
+              console.log(msg)
+              for (var i = 0; i < 10; i++) {
+                var template = `
+                  <div class="srcResult" onclick='move2lib("${msg.documents[i].title}", "${msg.documents[i].authors}", "${msg.documents[i].thumbnail}", "${msg.documents[i].isbn}")'>
+                    <img src='${msg.documents[i].thumbnail}'/><br>
+                    <div class="indBook">
+                      <h2 id='title${i}'>${msg.documents[i].title}</h2>
+                      <strong>저자:</strong> ${msg.documents[i].authors}<br>
+                      <strong>출판사:</strong> ${msg.documents[i].publisher}<br>
+                      <strong>요약:</strong> ${msg.documents[i].contents}...<br>
+                    </div>
+                  </div>
+                `
+                $('.search').append(template)
+              })
+            })
           })
-        })
-      })
-    </script>
+      </script>
+    </div>
   </body>
 </html>
