@@ -238,3 +238,16 @@ html {
   content: '자 /100자';
   display: inline;
 } */
+
+/* 아이콘 */
+#read {
+  font-size: 25px;
+  color: black;
+  cursor: pointer;
+}
+
+#willread {
+  font-size: 25px;
+  color: black;
+  cursor: pointer;
+}

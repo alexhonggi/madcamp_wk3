@@ -24,14 +24,18 @@
     <script>
       function move2lib(_title, _authors, _thumbnail, _isbn) {
         const db = firebase.firestore()
-        console.log('in func')
+        var sIsbn = _isbn.split(' ')
+        var tIsbn = sIsbn[1]
         var dat = {
           title: _title,
           thumbnail: _thumbnail,
           authors: _authors,
           isbn: _isbn,
+          isbnR: tIsbn,
+          wish: true,
+          createAt: firebase.firestore.FieldValue.serverTimestamp(),
         }
-        db.collection('book')
+        db.collection('book_test')
           .doc(_isbn)
           .set(dat)
           .then(() => {
