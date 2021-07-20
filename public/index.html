@@ -78,29 +78,50 @@
 <script  src="./script.js"></script>
 <div class="wrapper">
     <div id="typing-demo" class="typing-demo">
-      국경의 긴 터널을 빠져나오자, 설국이었다.
+      <div id="container3"></div>
+      <script>
+        const db = firebase.firestore();
+        var quote_num = Math.floor(Math.random() * 7 + 1);
+        var squote_num = String(quote_num)
+        console.log(quote_num)
+        var quote_length;
+        var quote_sentence;
+        let div = document.createElement("div");
+        db.collection('quote').doc(squote_num)
+          .get()
+          .then((doc) => {
+            quote_sentence = doc.data().sentence
+            quote_length = doc.data().length
+            console.log(quote_length)
+            console.log(quote_sentence)
+            var place = document.getElementById("typing-demo");
+        $("#typing-demo").append(quote_sentence);
+
+        place.width = quote_length
+        div.className = 'custom-class';
+        div.innerHTML = quote_sentence
+        div.width = quote_length
+        varname = quote_length
+        console.log(varname)
+        container3.width = quote_length
+        console.log(div)
+        console.log(div.innerHTML)
+        console.log(div.width)
+        document.getElementById("container3").appendChild(div)
+        console.log(container3.width)
+        })
+        
+        
+      </script>
     </div>
 </div>
+<div class="whi"></div>
+<div class="bu"></div>
+<div class="bub"></div>
 <!--<div class="garigae"></div>-->
 
 <!--띄우기 전 -->
- <script>
- const db = firebase.firestore();
- var quote_num = Math.floor(Math.random() * 9 + 1);
- var squote_num = String(quote_num)
- console.log(quote_num)
- var quote_length;
- var quote_sentence;
- db.collection('quote').doc(squote_num)
-  .get()
-  .then((doc) => {
-    quote_sentence = doc.data().sentence
-    quote_length = doc.data().length
-    console.log(quote_length)
-  console.log(quote_sentence)
-  })
-  
- </script>
+
 
 
  
@@ -182,7 +203,7 @@
             });
 
     </script> 
-    <script>ㄴ
+    <script>
       $(document).ready(function () {
         var pageNum = 1
 
