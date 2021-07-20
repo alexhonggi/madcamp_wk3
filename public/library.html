@@ -169,8 +169,6 @@
 
     <div class="popup hidden">
       <div class="popup_overlay">
-        <span id="read">읽은</span>
-        <span id="willread">읽을</span>
       </div>
       <div class="popup_content">
         <img id="preImg" class="preImg" src="http://image.kyobobook.co.kr/images/book/xlarge/987/x9788954675987.jpg"></img>
@@ -178,6 +176,8 @@
         <div class="book_content">
           <h4 id="aut">작가<br></h4>
           <h2 id="tit">제목<br></h2>
+          <span id="willread">읽을<br></span>
+          <span id="read">읽은</span>
           <!-- <h2 id="aut">작가<br></h2> -->
           <!-- <div id="cont"><br>내용<br></div> -->
           <div class="memo"></div>
@@ -211,6 +211,7 @@
       const db = firebase.firestore()
       const storage = firebase.storage()
       var count = 1
+      var countR = 1
       db.collection('book_test')
         .get()
         .then((result) =>
@@ -228,17 +229,29 @@
                 <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
                 <figcaption id="figcp${count}" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
               </figure>`
-            $('div#columns').append(template)
+              $('div#columns').append(template)
               count++
+            }
+            if(!rWish) {
+              var parenthesis = '('
+              var rTitle = doc.data().title.split(parenthesis)
+              var rAuthors = doc.data().authors.split(',')
+              var rIsbn = doc.data().isbn.split(' ')
+              var risbnR = doc.data().isbnR
+              var template = `
+              <figure id="book${countR}R" class="bookR">
+                <div id="isbn${countR}R" style="display:none">${risbnR}</div>
+                <img id="img${countR}R" class="imgR" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
+                <figcaption id="figcp${countR}R" class="figcpR">${rAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
+              </figure>`
+              $('div#columns_read').append(template)
+              countR++
             }
           })
         )
-    </script>
-
-    <script>
       console.log('bef')
-      var delayInMilliseconds = 600 //1 second
 
+      var delayInMilliseconds = 600 //1 second
       setTimeout(function () {
         console.log('aft')
         const popup = document.querySelector('.popup')
@@ -249,6 +262,7 @@
         const closeModal = () => {
           popup.classList.add('hidden')
         }
+        overlay.addEventListener('click', closeModal)
         for (i = 0; i < book.length; i++) {
           (function(m) {
             var mp1 = m+1
@@ -263,7 +277,6 @@
               document.getElementById('aut').textContent = pAuthor
               document.getElementById('tit').textContent = pTitle
               popup.classList.remove('hidden')
-              var docId;
               // '읽은'을 클릭하였을 때
               document.getElementById('read').addEventListener('click', function(event) {
                 db.collection("book_test").where('isbnR', '==', pIsbn)
@@ -276,6 +289,19 @@
                         db.collection("book_test").doc(docId).set({
                           wish: false
                         }, { merge: true });
+                        var parenthesis = '('
+                        var nTitle = doc.title.split(parenthesis)
+                        var nAuthors = doc.authors.split(',')
+                        var nIsbn = doc.isbn.split(' ')
+                        var nisbnR = doc.isbnR
+                        var template = `
+                          <figure id="book${countR}R" class="book$">
+                            <div id="isbn${countR}R" style="display:none">${nisbnR}</div>
+                            <img id="img${countR}R" class="imgR" src="http://image.kyobobook.co.kr/images/book/xlarge/${nIsbn[1].substring(nIsbn[1].length - 3, nIsbn[1].length)}/x${nIsbn[1]}.jpg">
+                            <figcaption id="figcp${countR}R" class="figcpR">${nAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${nTitle[0]}.</figcaption>
+                          </figure>`
+                        $('div#columns_read').append(template)
+                        countR++
                       });
                   })
                   .catch((error) => {
@@ -296,6 +322,19 @@
                         db.collection("book_test").doc(docId).set({
                           wish: true
                         }, { merge: true });
+                        var parenthesis = '('
+                        var nTitle = doc.title.split(parenthesis)
+                        var nAuthors = doc.authors.split(',')
+                        var nIsbn = doc.isbn.split(' ')
+                        var nisbnR = doc.isbnR
+                        var template = `
+                          <figure id="book${count}" class="book">
+                            <div id="isbn${count}" style="display:none">${nisbnR}</div>
+                            <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${nIsbn[1].substring(nIsbn[1].length - 3, nIsbn[1].length)}/x${nIsbn[1]}.jpg">
+                            <figcaption id="figcp${count}" class="figcp">${nAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${nTitle[0]}.</figcaption>
+                          </figure>`
+                        $('div#columns_read').append(template)
+                        count++
                       });
                   })
                   .catch((error) => {
@@ -307,48 +346,114 @@
             }, false)
           })(i);
         }
-        overlay.addEventListener('click', closeModal)
+        const bookR = document.querySelectorAll('.bookR')
+        const imgR = document.querySelectorAll('.imgR')
+        const figcpR = document.querySelectorAll('.figcpR')
+        console.log("aaaa")
+        for (i = 0; i < bookR.length; i++) {
+          (function(m) {
+            var mp1 = m+1
+            bookR[m].addEventListener('click', function(event) {
+              const db = firebase.firestore()
+              // console.log(document.getElementById("isbn" + mp1).textContent)
+              document.getElementById("preImg").src = document.getElementById("img" + mp1 + "R").src
+              var fulltitle = document.getElementById("figcp" + mp1 + "R").textContent
+              var pAuthor = fulltitle.split('의')[0] + '의'
+              var pTitle = fulltitle.substring(pAuthor.length + 1, fulltitle.length - 1)
+              var pIsbn = document.getElementById("isbn" + mp1 + "R").textContent
+              document.getElementById('aut').textContent = pAuthor
+              document.getElementById('tit').textContent = pTitle
+              popup.classList.remove('hidden')
+              // '읽은'을 클릭하였을 때
+              document.getElementById('read').addEventListener('click', function(event) {
+                db.collection("book_test").where('isbnR', '==', pIsbn)
+                  .get()
+                  .then((querySnapshot) => {
+                      querySnapshot.forEach((doc) => {
+                        console.log("aa")
+                        docId = doc.id
+                        console.log(docId)
+                        db.collection("book_test").doc(docId).set({
+                          wish: false
+                        }, { merge: true });
+                        var parenthesis = '('
+                        var nTitle = doc.title.split(parenthesis)
+                        var nAuthors = doc.authors.split(',')
+                        var nIsbn = doc.isbn.split(' ')
+                        var nisbnR = doc.isbnR
+                        var template = `
+                          <figure id="book${countR}R" class="book$">
+                            <div id="isbn${countR}R" style="display:none">${nisbnR}</div>
+                            <img id="img${countR}R" class="imgR" src="http://image.kyobobook.co.kr/images/book/xlarge/${nIsbn[1].substring(nIsbn[1].length - 3, nIsbn[1].length)}/x${nIsbn[1]}.jpg">
+                            <figcaption id="figcp${countR}R" class="figcpR">${nAuthors[0]}<span id="sp${countR}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${nTitle[0]}.</figcaption>
+                          </figure>`
+                        $('div#columns_read').append(template)
+                        countR++
+                      });
+                  })
+                  .catch((error) => {
+                      console.log("Error getting documents: ", error);
+                  });
+              })
+              // '읽은'을 클릭하였을 때 END
 
+              // '읽을'을 클릭하였을 때
+              document.getElementById('willread').addEventListener('click', function(event) {
+                db.collection("book_test").where('isbnR', '==', pIsbn)
+                  .get()
+                  .then((querySnapshot) => {
+                      querySnapshot.forEach((doc) => {
+                        console.log("aa")
+                        docId = doc.id
+                        console.log(docId)
+                        db.collection("book_test").doc(docId).set({
+                          wish: true
+                        }, { merge: true });
+                        var parenthesis = '('
+                        var nTitle = doc.title.split(parenthesis)
+                        var nAuthors = doc.authors.split(',')
+                        var nIsbn = doc.isbn.split(' ')
+                        var nisbnR = doc.isbnR
+                        var template = `
+                          <figure id="book${count}" class="book">
+                            <div id="isbn${count}" style="display:none">${nisbnR}</div>
+                            <img id="img${count}" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${nIsbn[1].substring(nIsbn[1].length - 3, nIsbn[1].length)}/x${nIsbn[1]}.jpg">
+                            <figcaption id="figcp${count}" class="figcp">${nAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${nTitle[0]}.</figcaption>
+                          </figure>`
+                        $('div#columns_read').append(template)
+                        count++
+                      });
+                  })
+                  .catch((error) => {
+                      console.log("Error getting documents: ", error);
+                  });
+              })
+              // '읽을'을 클릭하였을 때 END
+
+            }, false)
+          })(i);
+        }
         var light = document.querySelector('.toggle-scene__hit-spot')
-        var clickNum = 1
+        var read = false
         light.addEventListener('mouseleave', function(event) {
-          clickNum++
-          console.log(clickNum)
           console.log('clicked')
-          if(clickNum <= 2) {
-            const db = firebase.firestore()
-            const storage = firebase.storage()
-            var count = 1
-            db.collection('book_test')
-              .get()
-              .then((result) =>
-                result.forEach((doc) => {
-                  var rWish = doc.data().wish
-                  if(!rWish) {
-                    var parenthesis = '('
-                    var rTitle = doc.data().title.split(parenthesis)
-                    var rAuthors = doc.data().authors.split(',')
-                    var rIsbn = doc.data().isbn.split(' ')
-                    var risbnR = doc.data().isbnR
-                    var template = `
-                    <figure id="book${count}R" class="book">
-                      <div id="isbn${count}R" style="display:none">${risbnR}</div>
-                      <img id="img${count}R" class="img" src="http://image.kyobobook.co.kr/images/book/xlarge/${rIsbn[1].substring(rIsbn[1].length - 3, rIsbn[1].length)}/x${rIsbn[1]}.jpg">
-                      <figcaption id="figcp${count}R" class="figcp">${rAuthors[0]}<span id="sp${count}" style="font-size: 13px; color: gray; margin-left: 1px">의 <br></span>${rTitle[0]}.</figcaption>
-                    </figure>`
-                  $('div#columns_read').append(template)
-                    count++
-                  }
-                })
-              )
-          }
+          if(!read) {
             setTimeout(function () {
               columnsR = document.querySelector('#columns_read')
               columns = document.querySelector('#columns')
               columns.classList.add('hidden')
               columnsR.classList.remove('hidden')
-            }, delayInMilliseconds)
-            
+            }, 250)
+          }
+          if(read) {
+            setTimeout(function () {
+              columnsR = document.querySelector('#columns_read')
+              columns = document.querySelector('#columns')
+              columns.classList.remove('hidden')
+              columnsR.classList.add('hidden')
+          }, 250)
+          }
+          read = !read
         })
       }, delayInMilliseconds)
     </script>
