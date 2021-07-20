@@ -69,7 +69,7 @@
                 console.log(item.title)
                 console.log(item.author)
                 console.log(item.image)
-            return $("<li></li>")
+            return $("<li ></li>")
                 .data("item.autocomplete", item)
                 .append("<a>" + "<img src=\"" + item.image + "\" style=\"height: 40%;\" /><br />" + item.author + " - " + item.title + "</a>")
                 .appendTo(ul);

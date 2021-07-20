@@ -1,37 +1,6 @@
-.search h2 {
-}
-
-.srcResult {
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  margin: 10px 20px 10px 20px;
-  background: #fefefe;
-  border: 2px solid #fcfcfc;
-  box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
-  padding: 15px;
-  transition: opacity 0.4s ease-in-out;
-}
-
-.indBook {
-  margin: 10px 0px 0px 20px;
-  font-family: 'Nanum Myeongjo', serif;
-}
-
-.indBook h2 {
-  font-size: 23px;
-  font-family: 'Nanum Myeongjo', serif;
-  font-weight: 700;
-}
-
-.indBook strong {
-  font-family: 'Nanum Myeongjo', serif;
-  font-weight: 400;
-}
-
 * {
   box-sizing: border-box;
-  background-color: #f6f6f6;
+  font-family: 'Nanum Myeongjo', serif;
 }
 /* base font-size */
 html {
@@ -40,7 +9,7 @@ html {
 
 .preview {
   position: absolute;
-  top: 350px ;
+  top: 220px ;
   right: 0;
   left: 0;
   z-index: 100;
@@ -95,7 +64,7 @@ html {
 
 .orig-text {
   position: absolute;
-  top: 445px;
+  top: 318px;
   bottom: 84%;
   left: -150;
   z-index: 102;
@@ -103,6 +72,14 @@ html {
   width: 100%;
   border: 0;
   opacity: 0;
+}
+
+#ui-id-1 {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  width: 500px;
 }
 
 /* .containall {
@@ -152,8 +129,9 @@ margin-right: 0px;
 border: 1px solid rgb(255 153 153);
 }
 
+/* quote typing */
 .wrapper {
-  height: 80vh;
+  height: 60vh;
   /*This part is important for centering*/
   display: flex;
   align-items: center;
@@ -161,12 +139,13 @@ border: 1px solid rgb(255 153 153);
 }
 
 .typing-demo {
-  width: 35.5ch;
-  animation: typing 1.8s steps(22), blink 1.0s step-end infinite alternate;
+  width: 34ch;
+  animation: typing 1.8s steps(20), blink 1.0s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 3px solid;
   font-size: 1em;
+  font-family: 'Nanum Myeongjo';
 }
 
 @keyframes typing {
@@ -179,4 +158,42 @@ border: 1px solid rgb(255 153 153);
   50% {
     border-color: transparent
   }
+}
+
+#search {
+  position: absolute;
+  top: 330px;
+  left: 972px;
+  z-index: 9999;
+  opacity: 0.2;
+}
+
+.srcResult {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  margin: 10px 20px 10px 20px;
+  background: #fefefe;
+  border: 2px solid #fcfcfc;
+  box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+  padding: 15px;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.indBook {
+  margin: 10px 0px 0px 20px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 15px;
+}
+
+.indBook h2 {
+  font-size: 23px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 700;
+}
+
+.indBook strong {
+  font-size: 15px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 400;
 }

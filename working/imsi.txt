@@ -49,6 +49,43 @@
 </head>
 
 <body>
+<script>
+  const db = firebase.firestore();
+  var quote_num = Math.floor(Math.random() * 10);
+  var quote_length = db.collection('quote').doc(quote_num);
+  var quote_sentence = db.collection('quote').doc(quote_num);
+  console.log(quote_num)
+  console.log(quote_sentence)
+  console.log(quote_length)
+
+  var place = document.getElementById("typing-demo");
+  place.textContent = quote_sentence;
+  place.width = quote_length;
+ </script>
+<script  src="./script.js"></script>
+<div class="wrapper">
+    <div id="typing-demo" class="typing-demo">
+    <!--국경의 긴 터널을 빠져나오자, 설국이었다.-->
+    </div>
+</div>
+<!--<div class="garigae"></div>-->
+
+<!--띄우기 전 -->
+ 
+
+ 
+ <!--
+  var 난수 = 최솟값 ~ 최댓값 사이 // 난수가 곧 document id
+  doc = db에서 find(id)
+  var 문장길이 = doc.data().length
+  var 문장글귀 = doc.data().sentence
+
+  var 글귀들어갈곳 = document.getElementById("typing-demo")
+  글귀들어갈곳.textContent = 문장글귀
+  글귀들어갈곳.width = 문장길이
+
+  글귀들어갈곳.d
+  -->
 
     <script src="/__/firebase/8.7.1/firebase-app.js"></script>
     <script src="/__/firebase/8.7.1/firebase-auth.js"></script>
@@ -75,47 +112,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-<script  src="./script.js"></script>
-<div class="wrapper">
-    <div id="typing-demo" class="typing-demo">
-      국경의 긴 터널을 빠져나오자, 설국이었다.
-    </div>
-</div>
-<!--<div class="garigae"></div>-->
-
-<!--띄우기 전 -->
- <script>
- const db = firebase.firestore();
- var quote_num = Math.floor(Math.random() * 9 + 1);
- var squote_num = String(quote_num)
- console.log(quote_num)
- var quote_length;
- var quote_sentence;
- db.collection('quote').doc(squote_num)
-  .get()
-  .then((doc) => {
-    quote_sentence = doc.data().sentence
-    quote_length = doc.data().length
-    console.log(quote_length)
-  console.log(quote_sentence)
-  })
-  
- </script>
-
-
- 
- <!--
-  var 난수 = 최솟값 ~ 최댓값 사이 // 난수가 곧 document id
-  doc = db에서 find(id)
-  var 문장길이 = doc.data().length
-  var 문장글귀 = doc.data().sentence
-
-  var 글귀들어갈곳 = document.getElementById("typing-demo")
-  글귀들어갈곳.textContent = 문장글귀
-  글귀들어갈곳.width = 문장길이
-
-  글귀들어갈곳.d
-  -->
     <!--
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -125,18 +121,25 @@
  
 
   <div class="preview"></div>
+    <!--
+        <input type="text" id="query">
+    -->
     <input name="findBook"  class="orig-text" type="text" placeholder="설국" id="findBook" autofocus>
     <button id="search">검색</button><div class="search"></div>
     <script>
         $(function() {
             $("#findBook").autocomplete({
             source: function(request, response) {
+                //console.log("start");
                 $.ajax({
                     method: "GET",
                     url: "https://dapi.kakao.com/v3/search/book?target=title", // + request.term,
                     headers: { Authorization: "KakaoAK 72b502c6c7d429babec5087a1a698ff3" }, // ########부분에 본인의 REST API 키를 넣어주세요.
                     dataType: "json",
                     size: 5,
+                    // data: {
+                    //     term: request.term
+                    // },
                     data: { query: $("#findBook").val(), size:3 }, //{ query: $("#findBook").val()},
                     // data: { query: $("#query").val(), page: pageNum},
                     
@@ -182,7 +185,8 @@
             });
 
     </script> 
-    <script>ㄴ
+    <script>
+      const db = firebase.firestore()
       $(document).ready(function () {
         var pageNum = 1
 
