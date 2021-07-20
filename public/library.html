@@ -308,6 +308,14 @@
                     document.getElementById('tit').textContent = rTitle[0]
                     document.getElementById("preImg").src = "http://image.kyobobook.co.kr/images/book/xlarge/" + isbn.substring(isbn.length - 3, isbn.length) + "/x" + isbn + ".jpg"
                     popup.classList.remove('hidden')
+                    if(doc.data().wish) {
+                      document.getElementById('alrread').style.color = 'rgb(213, 213, 213)';
+                      document.getElementById('willread').style.color = 'rgb(93, 93, 93)';
+                    }
+                    if(!doc.data().wish) {
+                      document.getElementById('alrread').style.color = 'rgb(93, 93, 93)';
+                      document.getElementById('willread').style.color = 'rgb(213, 213, 213)';
+                    }
                     
                     // '읽은'을 클릭하였을 때
                     document.getElementById('alrread').addEventListener('click', function(event) {
@@ -318,8 +326,14 @@
                           console.log("읽은을 클릭했을때")
                           querySnapshot.forEach((doc) => {
                             if(doc.data().wish) {
+                              var docId = doc.id
+                              db.collection("book_test").doc(docId).set({
+                                wish: false
+                                }, { merge: true });
                               document.getElementById("book" + isbn).classList.add('hidden')
                               document.getElementById("book" + isbn + "R").classList.remove('hidden')
+                              document.getElementById('alrread').style.color = 'rgb(93, 93, 93)';
+                              document.getElementById('willread').style.color = 'rgb(213, 213, 213)';
                             }
                           });
                         })
@@ -329,23 +343,27 @@
                     })
                     // '읽은'을 클릭하였을 때 END
 
-                    // '읽을'을 클릭하였을 때
-                    document.getElementById('willread').addEventListener('click', function(event) {
-                      db.collection("book_test").where('isbnR', '==', isbn)
-                        .get()
-                        .then((querySnapshot) => {
-                          querySnapshot.forEach((doc) => {
-                            if(!doc.data().wish) {
-                              document.getElementById("book" + isbn).classList.remove('hidden')
-                              document.getElementById("book" + isbn + "R").classList.add('hidden')
-                            }
-                          });
-                        })
-                        .catch((error) => {
-                            console.log("Error getting documents: ", error);
-                        });
-                    })
-                    // '읽을'을 클릭하였을 때 END
+                    // // '읽을'을 클릭하였을 때
+                    // document.getElementById('willread').addEventListener('click', function(event) {                   
+                    //   db.collection("book_test").where('isbnR', '==', isbn)
+                    //     .get()
+                    //     .then((querySnapshot) => {
+                    //       querySnapshot.forEach((doc) => {
+                    //         if(!doc.data().wish) {
+                    //           var docId = doc.id
+                    //           db.collection("book_test").doc(docId).set({
+                    //             wish: true
+                    //             }, { merge: true });
+                    //           document.getElementById("book" + isbn).classList.remove('hidden')
+                    //           document.getElementById("book" + isbn + "R").classList.add('hidden')
+                    //         }
+                    //       });
+                    //     })
+                    //     .catch((error) => {
+                    //         console.log("Error getting documents: ", error);
+                    //     });
+                    // })
+                    // // '읽을'을 클릭하였을 때 END
                   })
                 })
             }, false)

@@ -291,15 +291,19 @@ html {
 
 /* 아이콘 */
 #alrread {
+  right: 10px;
   text-align: right;
-  font-size: 12px;
-  color: black;
+  font-size: 15px;
+  color: #d5d5d5;
   cursor: pointer;
+  position: absolute;
+  top: 60px;
 }
 
 #willread {
+  right: 10px;
+  top: 35px;
+  position: absolute;
   text-align: right;
-  font-size: 12px;
-  color: black;
-  cursor: pointer;
+  font-size: 15px;
 }
