@@ -52,14 +52,12 @@
 
     <script>
       var firebaseConfig = {
-        apiKey: 'AIzaSyAbmqKRLiQGTnwQceuUA6nU4sU7DMWG35A',
-        authDomain: 'madcamp2-4c469.firebaseapp.com',
-        databaseURL: 'https://madcamp2-4c469-default-rtdb.firebaseio.com',
-        projectId: 'madcamp2-4c469',
-        storageBucket: 'madcamp2-4c469.appspot.com',
-        messagingSenderId: '496486665118',
-        appId: '1:496486665118:web:6db4560115692b36da648f',
-        measurementId: 'G-M2KP2XT3M7',
+        apiKey: "AIzaSyCDBn8JZl_tqH0IDtHzUA9VIzKvnaJKk3Q",
+        authDomain: "sexy-honggi.firebaseapp.com",
+        projectId: "sexy-honggi",
+        storageBucket: "sexy-honggi.appspot.com",
+        messagingSenderId: "945469094085",
+        appId: "1:945469094085:web:d67d1ef6bfe165c6a798ac"
       }
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig)
@@ -174,6 +172,7 @@
         $(document).ready(function () {
           var pageNum = 1
           $('#search').click(function () {
+            console.log('haha');
             $('.search').html('')
             $.ajax({
               method: 'GET',
